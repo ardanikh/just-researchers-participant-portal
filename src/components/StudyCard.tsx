@@ -1,4 +1,4 @@
-import { Clock, DollarSign, ShieldCheck, ShieldAlert } from "lucide-react";
+import { Clock, ShieldCheck, ShieldAlert } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Study } from "@/data/mockData";
 
@@ -8,19 +8,19 @@ export default function StudyCard({ study }: { study: Study }) {
   return (
     <button
       onClick={() => navigate(`/study/${study.id}`)}
-      className="w-full rounded-lg border border-border bg-card p-4 text-left transition-colors hover:border-primary/30"
+      className="w-full rounded-lg border border-border bg-card p-4 text-left transition-colors active:bg-muted"
     >
-      <div className="mb-2 flex items-start justify-between">
-        <h3 className="text-base font-semibold text-foreground leading-tight pr-2">
+      <div className="mb-1 flex items-start justify-between gap-2">
+        <h3 className="text-[15px] font-semibold text-foreground leading-snug">
           {study.title}
         </h3>
         {study.trustLevel === "verified" ? (
-          <span className="flex shrink-0 items-center gap-1 rounded-full bg-trust/10 px-2 py-0.5 text-xs font-medium text-trust">
+          <span className="flex shrink-0 items-center gap-1 rounded-full border border-trust/20 bg-background px-2 py-0.5 text-xs font-medium text-trust">
             <ShieldCheck className="h-3.5 w-3.5" />
             Verified
           </span>
         ) : (
-          <span className="flex shrink-0 items-center gap-1 rounded-full bg-pending/10 px-2 py-0.5 text-xs font-medium text-pending-foreground">
+          <span className="flex shrink-0 items-center gap-1 rounded-full border border-pending/20 bg-background px-2 py-0.5 text-xs font-medium text-foreground">
             <ShieldAlert className="h-3.5 w-3.5 text-pending" />
             New
           </span>
@@ -29,19 +29,18 @@ export default function StudyCard({ study }: { study: Study }) {
 
       <p className="mb-3 text-sm text-muted-foreground">{study.researcherName}</p>
 
-      <div className="flex items-center gap-4 text-sm">
+      <div className="mb-3 flex items-center gap-3 text-sm">
         <span className="flex items-center gap-1 text-muted-foreground">
           <Clock className="h-4 w-4" />
           {study.duration}
         </span>
-        <span className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+        <span className="rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground">
           {study.method}
         </span>
       </div>
 
-      <div className="mt-3 flex items-center gap-1">
-        <DollarSign className="h-5 w-5 text-success" />
-        <span className="text-lg font-bold text-success">${study.incentive}</span>
+      <div className="flex items-baseline gap-0.5">
+        <span className="text-xl font-bold text-success">${study.incentive}</span>
       </div>
     </button>
   );

@@ -13,7 +13,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="px-4 pb-20 pt-6">
+    <div className="px-4 pb-24 pt-6">
       <h1 className="mb-6 text-xl font-bold text-foreground">Profile</h1>
 
       <div className="mb-6 flex items-center gap-4">
@@ -23,12 +23,12 @@ export default function Profile() {
         <div>
           {isGuest ? (
             <>
-              <p className="text-base font-medium text-foreground">Guest</p>
+              <p className="text-base font-semibold text-foreground">Guest</p>
               <p className="text-sm text-muted-foreground">Limited access</p>
             </>
           ) : (
             <>
-              <p className="text-base font-medium text-foreground">{userEmail}</p>
+              <p className="text-base font-semibold text-foreground">{userEmail}</p>
               <p className="text-sm text-muted-foreground">Participant</p>
             </>
           )}
@@ -37,10 +37,10 @@ export default function Profile() {
 
       {isGuest && (
         <div className="mb-6 rounded-lg border border-border p-4">
-          <p className="mb-2 text-sm text-muted-foreground">
+          <p className="mb-3 text-sm text-muted-foreground">
             Create an account to join studies and get paid.
           </p>
-          <Button onClick={() => navigate("/signup")} variant="outline" size="sm">
+          <Button onClick={() => navigate("/signup")} variant="outline" className="h-11">
             Sign up
           </Button>
         </div>
@@ -50,7 +50,7 @@ export default function Profile() {
         <Button
           onClick={handleLogout}
           variant="outline"
-          className="flex items-center gap-2"
+          className="flex h-11 items-center gap-2"
         >
           <LogOut className="h-4 w-4" />
           Log out

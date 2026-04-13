@@ -18,7 +18,10 @@ export default function ResearcherProfile() {
 
   return (
     <div className="px-4 pb-24 pt-4">
-      <button onClick={() => navigate(-1)} className="mb-4 flex items-center gap-1 text-sm text-muted-foreground">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-4 flex h-11 items-center gap-1 text-sm text-muted-foreground"
+      >
         <ArrowLeft className="h-4 w-4" /> Back
       </button>
 
@@ -37,27 +40,29 @@ export default function ResearcherProfile() {
         </div>
       </div>
 
-      <div className="mb-6 flex items-center gap-6 rounded-lg border border-border p-4">
-        <div className="text-center">
-          <p className="text-lg font-bold text-foreground">{researcher.rating}</p>
-          <StarRating rating={researcher.rating} size={14} />
+      <div className="mb-6 grid grid-cols-2 gap-3">
+        <div className="rounded-lg border border-border p-4 text-center">
+          <p className="text-2xl font-bold text-foreground">{researcher.rating}</p>
+          <div className="mt-1 flex justify-center">
+            <StarRating rating={researcher.rating} size={14} />
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">Rating</p>
         </div>
-        <div className="h-8 w-px bg-border" />
-        <div className="text-center">
-          <p className="text-lg font-bold text-foreground">{researcher.studyCount}</p>
-          <p className="text-xs text-muted-foreground">Studies</p>
+        <div className="rounded-lg border border-border p-4 text-center">
+          <p className="text-2xl font-bold text-foreground">{researcher.studyCount}</p>
+          <p className="mt-2 text-xs text-muted-foreground">Studies</p>
         </div>
       </div>
 
       <h2 className="mb-3 text-sm font-semibold text-foreground">Reviews</h2>
       <div className="space-y-3">
         {researcher.reviews.map((review, i) => (
-          <div key={i} className="rounded-lg border border-border p-3">
-            <div className="mb-1 flex items-center justify-between">
+          <div key={i} className="rounded-lg border border-border p-4">
+            <div className="mb-1.5 flex items-center justify-between">
               <p className="text-sm font-medium text-foreground">{review.user}</p>
-              <StarRating rating={review.rating} size={12} />
+              <StarRating rating={review.rating} size={13} />
             </div>
-            <p className="text-sm text-muted-foreground">{review.text}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{review.text}</p>
           </div>
         ))}
       </div>

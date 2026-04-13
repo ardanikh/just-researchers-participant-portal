@@ -10,7 +10,7 @@ interface StarRatingProps {
 
 export default function StarRating({ rating, max = 5, size = 16, interactive = false, onChange }: StarRatingProps) {
   return (
-    <div className="flex items-center gap-0.5">
+    <div className="flex items-center gap-1">
       {Array.from({ length: max }, (_, i) => {
         const filled = i < Math.round(rating);
         return (
@@ -19,7 +19,8 @@ export default function StarRating({ rating, max = 5, size = 16, interactive = f
             type="button"
             disabled={!interactive}
             onClick={() => onChange?.(i + 1)}
-            className={interactive ? "cursor-pointer" : "cursor-default"}
+            className={`${interactive ? "cursor-pointer" : "cursor-default"}`}
+            style={{ minWidth: interactive ? 44 : undefined, minHeight: interactive ? 44 : undefined, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
             <Star
               style={{ width: size, height: size }}

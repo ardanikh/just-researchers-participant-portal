@@ -22,31 +22,34 @@ export default function Feedback() {
   };
 
   return (
-    <div className="px-4 pb-24 pt-4">
-      <button onClick={() => navigate(-1)} className="mb-4 flex items-center gap-1 text-sm text-muted-foreground">
+    <div className="px-4 pb-28 pt-4">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-4 flex h-11 items-center gap-1 text-sm text-muted-foreground"
+      >
         <ArrowLeft className="h-4 w-4" /> Back
       </button>
 
       <h1 className="mb-1 text-xl font-bold text-foreground">Rate this study</h1>
-      <p className="mb-6 text-sm text-muted-foreground">
+      <p className="mb-8 text-sm text-muted-foreground">
         Your feedback helps other participants.
       </p>
 
-      <div className="space-y-5">
+      <div className="space-y-6">
         {categories.map((cat) => (
           <div key={cat}>
             <p className="mb-2 text-sm font-medium text-foreground">{cat}</p>
             <StarRating
               rating={ratings[cat] || 0}
               interactive
-              size={28}
+              size={32}
               onChange={(val) => setRatings((prev) => ({ ...prev, [cat]: val }))}
             />
           </div>
         ))}
       </div>
 
-      <Button onClick={handleSubmit} className="mt-8 w-full" size="lg">
+      <Button onClick={handleSubmit} className="mt-10 h-12 w-full text-sm font-semibold">
         Submit feedback
       </Button>
     </div>
