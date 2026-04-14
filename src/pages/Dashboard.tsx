@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock } from "lucide-react";
 import { userStudies } from "@/data/mockData";
 
 export default function Dashboard() {
@@ -8,74 +7,63 @@ export default function Dashboard() {
   const completed = userStudies.filter((s) => s.status === "completed");
 
   return (
-    <div className="px-4 pb-24 pt-6">
-      <h1 className="mb-6 text-xl font-bold text-foreground">Your studies</h1>
+    <div className="mx-auto max-w-3xl px-4 py-8 lg:px-8">
+      <h1 className="mb-1 text-2xl font-bold text-foreground">Dashboard</h1>
+      <p className="mb-8 text-sm text-muted-foreground">Track your research participation</p>
 
-      {upcoming.length > 0 && (
-        <section className="mb-8">
-          <h2 className="mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Upcoming
-          </h2>
+      <section className="mb-8">
+        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Upcoming</h2>
+        {upcoming.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No upcoming studies.</p>
+        ) : (
           <div className="space-y-3">
             {upcoming.map((study) => (
-              <button
+              <div
                 key={study.id}
                 onClick={() => navigate(`/study/${study.id}`)}
-                className="w-full rounded-lg border border-border p-4 text-left active:bg-muted"
+                className="flex cursor-pointer items-center justify-between rounded-lg border border-border p-4 transition-colors hover:bg-muted"
               >
-                <h3 className="mb-2 text-[15px] font-semibold text-foreground">{study.title}</h3>
-                <div className="mb-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <Calendar className="h-4 w-4" />
-                  <span>{study.scheduledDate}</span>
+                <div>
+                  <p className="text-sm font-medium text-foreground">{study.title}</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{study.scheduledDate}</p>
                 </div>
-                <p className="text-lg font-bold text-success">${study.incentive}</p>
-              </button>
+                <span className="text-sm font-bold text-success">${study.incentive}</span>
+              </div>
             ))}
           </div>
-        </section>
-      )}
+        )}
+      </section>
 
-      {completed.length > 0 && (
-        <section>
-          <h2 className="mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Completed
-          </h2>
+      <section>
+        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Completed</h2>
+        {completed.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No completed studies yet.</p>
+        ) : (
           <div className="space-y-3">
             {completed.map((study) => (
               <div
                 key={study.id}
-                className="rounded-lg border border-border p-4"
+                className="flex cursor-pointer items-center justify-between rounded-lg border border-border p-4 transition-colors hover:bg-muted"
+                onClick={() => navigate(`/feedback/${study.id}`)}
               >
-                <div className="mb-2 flex items-start justify-between gap-2">
-                  <h3 className="text-[15px] font-semibold text-foreground">{study.title}</h3>
-                  {study.paymentStatus === "paid" ? (
-                    <span className="shrink-0 rounded-full border border-success/20 bg-background px-2.5 py-0.5 text-xs font-medium text-success">
-                      Paid
-                    </span>
-                  ) : (
-                    <span className="shrink-0 rounded-full border border-pending/20 bg-background px-2.5 py-0.5 text-xs font-medium text-foreground">
-                      Pending
-                    </span>
-                  )}
+                <div>
+                  <p className="text-sm font-medium text-foreground">{study.title}</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{study.completedDate}</p>
                 </div>
-                <div className="mb-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <Clock className="h-4 w-4" />
-                  <span>{study.completedDate}</span>
-                </div>
-                <p className="text-lg font-bold text-success">${study.incentive}</p>
-                {study.paymentStatus === "paid" && (
-                  <button
-                    onClick={() => navigate(`/feedback/${study.id}`)}
-                    className="mt-3 flex h-9 items-center text-sm font-medium text-trust"
-                  >
-                    Leave feedback →
-                  </button>
-                )}
+                <span
+                  className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                    study.paymentStatus === "paid"
+                      ? "bg-success/10 text-success"
+                      : "bg-pending/10 text-foreground"
+                  }`}
+                >
+                  {study.paymentStatus === "paid" ? "Paid" : "Pending"}
+                </span>
               </div>
             ))}
           </div>
-        </section>
-      )}
+        )}
+      </section>
     </div>
   );
 }
