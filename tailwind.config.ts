@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ["Roboto", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -61,6 +61,10 @@ export default {
         pending: {
           DEFAULT: "hsl(var(--pending))",
           foreground: "hsl(var(--pending-foreground))",
+        },
+        nav: {
+          DEFAULT: "hsl(var(--nav))",
+          foreground: "hsl(var(--nav-foreground))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

@@ -2,15 +2,20 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Clock, ShieldCheck, ShieldAlert, User, ChevronRight } from "lucide-react";
 import { studies, researchers } from "@/data/mockData";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
+import LoginModal from "@/components/LoginModal";
 
 export default function StudyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const study = studies.find((s) => s.id === id);
 
   if (!study) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-[60vh] items-center justify-center">
         <p className="text-muted-foreground">Study not found.</p>
       </div>
     );
@@ -18,23 +23,31 @@ export default function StudyDetail() {
 
   const researcher = researchers.find((r) => r.id === study.researcherId);
 
+  const handleJoin = () => {
+    if (!isAuthenticated) {
+      setShowLoginModal(true);
+    } else {
+      navigate(`/consent/${study.id}`);
+    }
+  };
+
   return (
-    <div className="px-4 pb-28 pt-4">
+    <div className="mx-auto max-w-3xl px-4 py-8 lg:px-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 flex h-11 items-center gap-1 text-sm text-muted-foreground"
+        className="mb-6 flex h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" /> Back
       </button>
 
-      <div className="mb-2 flex items-start justify-between gap-2">
-        <h1 className="text-xl font-bold text-foreground leading-tight">{study.title}</h1>
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <h1 className="text-2xl font-bold text-foreground leading-tight">{study.title}</h1>
         {study.trustLevel === "verified" ? (
-          <span className="flex shrink-0 items-center gap-1 rounded-full border border-trust/20 bg-background px-2 py-0.5 text-xs font-medium text-trust">
+          <span className="flex shrink-0 items-center gap-1 rounded-full border border-trust/20 bg-trust/5 px-2.5 py-1 text-xs font-medium text-trust">
             <ShieldCheck className="h-3.5 w-3.5" /> Verified
           </span>
         ) : (
-          <span className="flex shrink-0 items-center gap-1 rounded-full border border-pending/20 bg-background px-2 py-0.5 text-xs font-medium text-foreground">
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-pending/10 px-2.5 py-1 text-xs font-medium text-foreground">
             <ShieldAlert className="h-3.5 w-3.5 text-pending" /> New
           </span>
         )}
@@ -52,7 +65,7 @@ export default function StudyDetail() {
       </div>
 
       {/* Incentive */}
-      <div className="mb-6 rounded-lg border border-border p-4">
+      <div className="mb-6 rounded-lg border border-border p-5">
         <p className="mb-0.5 text-xs font-medium text-muted-foreground uppercase tracking-wide">Incentive</p>
         <p className="text-2xl font-bold text-success">${study.incentive}</p>
         <p className="mt-1 text-sm text-muted-foreground">{study.incentiveBreakdown}</p>
@@ -75,7 +88,7 @@ export default function StudyDetail() {
       {researcher && (
         <button
           onClick={() => navigate(`/researcher/${researcher.id}`)}
-          className="mb-8 flex w-full items-center gap-3 rounded-lg border border-border p-3 text-left active:bg-muted"
+          className="mb-8 flex w-full items-center gap-3 rounded-lg border border-border p-4 text-left transition-colors hover:bg-muted"
         >
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
             <User className="h-5 w-5 text-muted-foreground" />
@@ -89,11 +102,13 @@ export default function StudyDetail() {
       )}
 
       <Button
-        onClick={() => navigate(`/consent/${study.id}`)}
-        className="h-12 w-full text-sm font-semibold"
+        onClick={handleJoin}
+        className="h-12 w-full text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
       >
         Join Study
       </Button>
+
+      <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
     </div>
   );
 }
