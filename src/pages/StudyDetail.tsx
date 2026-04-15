@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Clock, FileText, Globe, MapPin, User, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Clock, FileText, Globe, MapPin, User, CheckCircle2, Briefcase } from "lucide-react";
 import { studies, researchers } from "@/data/mockData";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -32,99 +32,90 @@ export default function StudyDetail() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-8 lg:py-12">
+    <div className="mx-auto max-w-3xl px-6 py-8 lg:py-12">
+      {/* Back link */}
       <button
-        onClick={() => navigate(-1)}
-        className="mb-8 flex h-11 items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        onClick={() => navigate("/")}
+        className="mb-4 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
       >
-        <ArrowLeft className="h-4 w-4" /> Back
+        <ArrowLeft className="h-4 w-4" /> Available Studies
       </button>
 
-      {/* Organization */}
-      <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-sm font-bold text-foreground">
-          {study.organization.charAt(0)}
-        </div>
-        <span className="text-sm font-medium text-muted-foreground">{study.organization}</span>
-      </div>
-
-      <h1 className="mb-3 text-2xl font-bold leading-tight text-foreground md:text-3xl">
+      {/* Title */}
+      <h1 className="mb-8 text-3xl font-bold leading-tight text-foreground md:text-4xl">
         {study.title}
       </h1>
 
-      <p className="mb-6 text-sm leading-relaxed text-muted-foreground">{study.description}</p>
-
-      {/* Metadata */}
-      <div className="mb-8 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-        <span className="flex items-center gap-1.5">
-          <Clock className="h-4 w-4" /> {study.duration}
-        </span>
-        <span className="flex items-center gap-1.5">
-          <FileText className="h-4 w-4" /> {study.method}
-        </span>
-        <span className="flex items-center gap-1.5">
-          {study.methodType === "Remote" ? <Globe className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
-          {study.methodType}
-        </span>
+      {/* Compensation card */}
+      <div className="mb-10 rounded-xl bg-muted/50 p-5">
+        <div className="flex items-start gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-trust/10">
+            <Briefcase className="h-5 w-5 text-trust" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-foreground">Participant Compensation</p>
+            <p className="text-2xl font-bold text-success">${study.incentive}.00 Voucher</p>
+            <p className="mt-1 text-sm text-muted-foreground">{study.incentiveBreakdown}</p>
+          </div>
+        </div>
       </div>
 
       {/* Target Criteria */}
       {study.targetCriteria && (
-        <div className="mb-6 rounded-xl border border-border p-5">
-          <h2 className="mb-3 text-sm font-semibold text-foreground">Who can join</h2>
-          <ul className="space-y-2">
+        <div className="mb-10">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="text-trust">👥</span>
+            <h2 className="text-lg font-bold text-foreground">Target Criteria</h2>
+          </div>
+          <div className="rounded-xl border border-border">
             {study.targetCriteria.map((item, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
-                {item}
-              </li>
+              <div
+                key={i}
+                className={`flex items-center gap-3 px-5 py-4 ${
+                  i < study.targetCriteria.length - 1 ? "border-b border-border" : ""
+                }`}
+              >
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
+                <span className="text-sm text-foreground">{item}</span>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
 
-      {/* Compensation */}
-      <div className="mb-6 rounded-xl border border-border p-5">
-        <h2 className="mb-1 text-sm font-semibold text-foreground">Compensation</h2>
-        <p className="text-2xl font-bold text-success">${study.incentive}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{study.incentiveBreakdown}</p>
-      </div>
-
-      {/* What you'll do */}
-      <div className="mb-6 rounded-xl border border-border p-5">
-        <h2 className="mb-3 text-sm font-semibold text-foreground">What you'll do</h2>
-        <ul className="space-y-2">
+      {/* Task Description */}
+      <div className="mb-10">
+        <div className="mb-4 flex items-center gap-2">
+          <span className="text-trust">📋</span>
+          <h2 className="text-lg font-bold text-foreground">Task Description</h2>
+        </div>
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">{study.description}</p>
+        <ul className="mb-6 space-y-2">
           {study.whatYouWillDo.map((item, i) => (
             <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-              <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-trust" />
+              <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-foreground" />
               {item}
             </li>
           ))}
         </ul>
+
+        {/* Blockquote */}
+        <div className="border-l-4 border-trust bg-trust/5 py-3 pl-4 pr-4 rounded-r-lg">
+          <p className="text-sm italic text-muted-foreground">
+            "This session takes approximately {study.duration.toLowerCase()} and is conducted via a secure, encrypted environment."
+          </p>
+        </div>
       </div>
 
-      {/* Researcher */}
-      {researcher && (
-        <button
-          onClick={() => navigate(`/researcher/${researcher.id}`)}
-          className="mb-8 flex w-full items-center gap-3 rounded-xl border border-border p-4 text-left transition-colors hover:bg-muted"
+      {/* CTA */}
+      <div className="text-center">
+        <Button
+          onClick={handleJoin}
+          className="h-12 rounded-full bg-trust px-12 text-base font-semibold text-trust-foreground hover:bg-trust/90"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-            <User className="h-5 w-5 text-muted-foreground" />
-          </div>
-          <div className="flex-1">
-            <p className="text-sm font-medium text-foreground">{researcher.name}</p>
-            <p className="text-xs text-muted-foreground">{researcher.organization}</p>
-          </div>
-        </button>
-      )}
-
-      <Button
-        onClick={handleJoin}
-        className="h-12 w-full rounded-lg bg-trust text-base font-semibold text-trust-foreground hover:bg-trust/90"
-      >
-        Apply for this Study
-      </Button>
+          Apply for this Study
+        </Button>
+      </div>
 
       <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
     </div>
