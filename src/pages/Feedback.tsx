@@ -33,20 +33,20 @@ export default function Feedback() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 lg:px-8">
+    <div className="mx-auto max-w-3xl px-6 py-8 lg:py-12">
       <button
         onClick={() => navigate(-1)}
-        className="mb-6 flex h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+        className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" /> Back
       </button>
 
-      <h1 className="mb-2 text-2xl font-bold text-foreground">Rate your experience</h1>
+      <h1 className="mb-2 text-2xl font-bold text-foreground md:text-3xl">Rate your experience</h1>
       <p className="mb-8 text-sm text-muted-foreground">"{study.title}"</p>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {categories.map((cat) => (
-          <div key={cat.key} className="rounded-lg border border-border p-5">
+          <div key={cat.key} className="rounded-xl border border-border p-5">
             <p className="text-sm font-medium text-foreground mb-1">{cat.label}</p>
             <p className="text-xs text-muted-foreground mb-3">{cat.desc}</p>
             <StarRating
@@ -61,7 +61,7 @@ export default function Feedback() {
       <Button
         onClick={handleSubmit}
         disabled={Object.keys(ratings).length < categories.length}
-        className="mt-8 h-12 w-full text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+        className="mt-8 h-12 w-full rounded-lg bg-trust text-base font-semibold text-trust-foreground hover:bg-trust/90"
       >
         Submit Feedback
       </Button>

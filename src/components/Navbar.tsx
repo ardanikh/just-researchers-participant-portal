@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -23,35 +24,41 @@ export default function Navbar() {
           JustResearchers
         </button>
 
-        {/* Desktop */}
+        {/* Desktop center nav */}
+        <div className="hidden items-center gap-6 md:flex">
+          <button
+            onClick={() => navigate("/")}
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === "/" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Discover Studies
+          </button>
+          {isAuthenticated && (
+            <button
+              onClick={() => navigate("/dashboard")}
+              className={`text-sm font-medium transition-colors ${
+                location.pathname === "/dashboard"
+                  ? "text-trust underline underline-offset-[20px] decoration-2"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              My Dashboard
+            </button>
+          )}
+        </div>
+
+        {/* Desktop right */}
         <div className="hidden items-center gap-3 md:flex">
           {isAuthenticated ? (
-            <>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate("/dashboard")}
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                Dashboard
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate("/profile")}
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                Profile
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={logout}
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                Log out
-              </Button>
-            </>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => { logout(); navigate("/"); }}
+              className="h-9 gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+            >
+              Sign Out
+            </Button>
           ) : (
             <>
               <Button
@@ -86,13 +93,15 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="border-t border-border px-6 pb-4 pt-2 md:hidden">
           <div className="flex flex-col gap-1">
-            {isAuthenticated ? (
+            <button onClick={() => { setMobileOpen(false); navigate("/"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Discover Studies</button>
+            {isAuthenticated && (
               <>
-                <button onClick={() => { setMobileOpen(false); navigate("/dashboard"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Dashboard</button>
+                <button onClick={() => { setMobileOpen(false); navigate("/dashboard"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">My Dashboard</button>
                 <button onClick={() => { setMobileOpen(false); navigate("/profile"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Profile</button>
-                <button onClick={() => { setMobileOpen(false); logout(); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Log out</button>
+                <button onClick={() => { setMobileOpen(false); logout(); navigate("/"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Sign Out</button>
               </>
-            ) : (
+            )}
+            {!isAuthenticated && (
               <>
                 <button onClick={() => { setMobileOpen(false); navigate("/login"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Sign In</button>
                 <button onClick={() => { setMobileOpen(false); navigate("/signup"); }} className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-trust hover:bg-muted">Register</button>

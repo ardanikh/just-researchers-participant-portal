@@ -12,6 +12,7 @@ export default function Footer() {
           <span className="cursor-pointer transition-colors hover:text-background">Privacy Policy</span>
           <span className="cursor-pointer transition-colors hover:text-background">Terms of Service</span>
           <span className="cursor-pointer transition-colors hover:text-background">Contact Support</span>
+          <span className="cursor-pointer transition-colors hover:text-background">Methodology</span>
         </div>
       </div>
     </footer>

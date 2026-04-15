@@ -21,53 +21,59 @@ export default function Consent() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 lg:px-8">
+    <div className="mx-auto max-w-3xl px-6 py-8 lg:py-12">
       <button
         onClick={() => navigate(-1)}
-        className="mb-6 flex h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+        className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" /> Back
       </button>
 
-      <h1 className="mb-2 text-2xl font-bold text-foreground">Before you join</h1>
+      <h1 className="mb-2 text-2xl font-bold text-foreground md:text-3xl">Before you join</h1>
       <p className="mb-8 text-sm text-muted-foreground">
         Please review the following information about "{study.title}"
       </p>
 
       <section className="mb-6">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="mb-3 flex items-center gap-2">
           <Info className="h-4 w-4 text-trust" />
           <h2 className="text-sm font-semibold text-foreground">Data collected</h2>
         </div>
-        <ul className="space-y-1.5 pl-6">
+        <div className="rounded-xl border border-border">
           {study.dataCollected.map((item, i) => (
-            <li key={i} className="text-sm text-muted-foreground list-disc">{item}</li>
+            <div key={i} className={`px-5 py-3 text-sm text-muted-foreground ${i < study.dataCollected.length - 1 ? "border-b border-border" : ""}`}>
+              {item}
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       <section className="mb-6">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="mb-3 flex items-center gap-2">
           <Info className="h-4 w-4 text-trust" />
           <h2 className="text-sm font-semibold text-foreground">How your data will be used</h2>
         </div>
-        <ul className="space-y-1.5 pl-6">
+        <div className="rounded-xl border border-border">
           {study.dataUsage.map((item, i) => (
-            <li key={i} className="text-sm text-muted-foreground list-disc">{item}</li>
+            <div key={i} className={`px-5 py-3 text-sm text-muted-foreground ${i < study.dataUsage.length - 1 ? "border-b border-border" : ""}`}>
+              {item}
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       <section className="mb-6">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="mb-3 flex items-center gap-2">
           <AlertTriangle className="h-4 w-4 text-destructive" />
           <h2 className="text-sm font-semibold text-foreground">Recording</h2>
         </div>
-        <p className="text-sm text-muted-foreground pl-6">{study.recordingInfo}</p>
+        <div className="rounded-xl border border-border px-5 py-3">
+          <p className="text-sm text-muted-foreground">{study.recordingInfo}</p>
+        </div>
       </section>
 
-      <section className="mb-8 rounded-lg border border-border p-4">
-        <p className="text-sm text-foreground font-medium mb-1">Your rights</p>
+      <section className="mb-8 rounded-xl bg-muted/50 p-5">
+        <p className="text-sm font-medium text-foreground mb-1">Your rights</p>
         <p className="text-sm text-muted-foreground">
           You can leave this study at any time, for any reason. Your data will be deleted upon request.
         </p>
@@ -88,7 +94,7 @@ export default function Consent() {
       <Button
         disabled={!agreed}
         onClick={() => navigate("/dashboard")}
-        className="h-12 w-full text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+        className="h-12 w-full rounded-lg bg-trust text-base font-semibold text-trust-foreground hover:bg-trust/90"
       >
         Confirm & Join Study
       </Button>

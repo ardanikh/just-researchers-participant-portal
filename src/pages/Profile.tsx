@@ -6,10 +6,10 @@ export default function Profile() {
   const { userEmail, isGuest, logout } = useAuth();
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 lg:px-8">
-      <h1 className="mb-6 text-2xl font-bold text-foreground">Profile</h1>
+    <div className="mx-auto max-w-3xl px-6 py-8 lg:py-12">
+      <h1 className="mb-6 text-2xl font-bold text-foreground md:text-3xl">Profile</h1>
 
-      <div className="rounded-lg border border-border p-6">
+      <div className="rounded-xl border border-border p-6">
         <div className="mb-6 flex items-center gap-4">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-muted">
             <User className="h-7 w-7 text-muted-foreground" />
@@ -24,8 +24,8 @@ export default function Profile() {
           </div>
         </div>
 
-        <Button variant="outline" onClick={logout} className="h-11">
-          Log out
+        <Button variant="outline" onClick={logout} className="h-11 rounded-lg">
+          Sign Out
         </Button>
       </div>
     </div>
