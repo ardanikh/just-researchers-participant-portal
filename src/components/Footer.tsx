@@ -1,12 +1,17 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-border bg-muted">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-8 text-center text-sm text-muted-foreground sm:flex-row sm:justify-between sm:text-left lg:px-8">
-        <p>&copy; {new Date().getFullYear()} JustResearchers. All rights reserved.</p>
-        <div className="flex gap-6">
-          <span className="cursor-pointer hover:text-foreground">Privacy</span>
-          <span className="cursor-pointer hover:text-foreground">Terms</span>
-          <span className="cursor-pointer hover:text-foreground">Contact</span>
+    <footer className="border-t border-border bg-foreground">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-sm font-medium text-background">JustResearchers</p>
+          <p className="mt-1 text-xs text-background/60">
+            &copy; {new Date().getFullYear()} JustResearchers. All rights reserved.
+          </p>
+        </div>
+        <div className="flex gap-6 text-sm text-background/60">
+          <span className="cursor-pointer transition-colors hover:text-background">Privacy Policy</span>
+          <span className="cursor-pointer transition-colors hover:text-background">Terms of Service</span>
+          <span className="cursor-pointer transition-colors hover:text-background">Contact Support</span>
         </div>
       </div>
     </footer>

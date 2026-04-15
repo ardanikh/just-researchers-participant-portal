@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
@@ -6,61 +6,48 @@ import { useState } from "react";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation();
   const { isAuthenticated, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-nav text-nav-foreground">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 lg:px-8">
+    <nav className="sticky top-0 z-50 border-b border-border bg-background">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <button
           onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-lg font-bold tracking-tight"
+          className="flex items-center gap-2.5 text-base font-bold text-foreground"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-trust text-xs font-bold text-trust-foreground">
             JR
           </span>
           JustResearchers
         </button>
 
-        {/* Desktop links */}
-        <div className="hidden items-center gap-6 md:flex">
-          <button
-            onClick={() => {
-              navigate("/");
-              setTimeout(() => {
-                document.getElementById("studies")?.scrollIntoView({ behavior: "smooth" });
-              }, 100);
-            }}
-            className="text-sm font-medium text-nav-foreground/80 transition-colors hover:text-nav-foreground"
-          >
-            Explore Studies
-          </button>
-
+        {/* Desktop */}
+        <div className="hidden items-center gap-3 md:flex">
           {isAuthenticated ? (
             <>
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => navigate("/dashboard")}
-                className={`text-sm font-medium transition-colors hover:text-nav-foreground ${
-                  location.pathname === "/dashboard" ? "text-nav-foreground" : "text-nav-foreground/80"
-                }`}
+                className="text-sm text-muted-foreground hover:text-foreground"
               >
                 Dashboard
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => navigate("/profile")}
-                className={`text-sm font-medium transition-colors hover:text-nav-foreground ${
-                  location.pathname === "/profile" ? "text-nav-foreground" : "text-nav-foreground/80"
-                }`}
+                className="text-sm text-muted-foreground hover:text-foreground"
               >
                 Profile
-              </button>
+              </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={logout}
-                className="text-nav-foreground/80 hover:bg-nav-foreground/10 hover:text-nav-foreground"
+                className="text-sm text-muted-foreground hover:text-foreground"
               >
                 Log out
               </Button>
@@ -68,19 +55,19 @@ export default function Navbar() {
           ) : (
             <>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={() => navigate("/login")}
-                className="text-nav-foreground/80 hover:bg-nav-foreground/10 hover:text-nav-foreground"
+                className="h-9 rounded-full border-border px-5 text-sm font-medium text-foreground"
               >
-                Login
+                Sign In
               </Button>
               <Button
                 size="sm"
                 onClick={() => navigate("/signup")}
-                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                className="h-9 rounded-full bg-trust px-5 text-sm font-medium text-trust-foreground hover:bg-trust/90"
               >
-                Sign up
+                Register
               </Button>
             </>
           )}
@@ -91,61 +78,24 @@ export default function Navbar() {
           className="flex h-11 w-11 items-center justify-center md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? <X className="h-5 w-5 text-foreground" /> : <Menu className="h-5 w-5 text-foreground" />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-nav-foreground/10 px-4 pb-4 pt-2 md:hidden">
-          <div className="flex flex-col gap-2">
-            <button
-              onClick={() => {
-                setMobileOpen(false);
-                navigate("/");
-                setTimeout(() => {
-                  document.getElementById("studies")?.scrollIntoView({ behavior: "smooth" });
-                }, 100);
-              }}
-              className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-nav-foreground/80 hover:bg-nav-foreground/10"
-            >
-              Explore Studies
-            </button>
+        <div className="border-t border-border px-6 pb-4 pt-2 md:hidden">
+          <div className="flex flex-col gap-1">
             {isAuthenticated ? (
               <>
-                <button
-                  onClick={() => { setMobileOpen(false); navigate("/dashboard"); }}
-                  className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-nav-foreground/80 hover:bg-nav-foreground/10"
-                >
-                  Dashboard
-                </button>
-                <button
-                  onClick={() => { setMobileOpen(false); navigate("/profile"); }}
-                  className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-nav-foreground/80 hover:bg-nav-foreground/10"
-                >
-                  Profile
-                </button>
-                <button
-                  onClick={() => { setMobileOpen(false); logout(); }}
-                  className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-nav-foreground/80 hover:bg-nav-foreground/10"
-                >
-                  Log out
-                </button>
+                <button onClick={() => { setMobileOpen(false); navigate("/dashboard"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Dashboard</button>
+                <button onClick={() => { setMobileOpen(false); navigate("/profile"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Profile</button>
+                <button onClick={() => { setMobileOpen(false); logout(); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Log out</button>
               </>
             ) : (
               <>
-                <button
-                  onClick={() => { setMobileOpen(false); navigate("/login"); }}
-                  className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-nav-foreground/80 hover:bg-nav-foreground/10"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => { setMobileOpen(false); navigate("/signup"); }}
-                  className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-primary hover:bg-nav-foreground/10"
-                >
-                  Sign up
-                </button>
+                <button onClick={() => { setMobileOpen(false); navigate("/login"); }} className="rounded-md px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-muted">Sign In</button>
+                <button onClick={() => { setMobileOpen(false); navigate("/signup"); }} className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-trust hover:bg-muted">Register</button>
               </>
             )}
           </div>
